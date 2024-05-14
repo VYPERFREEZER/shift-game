@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>
+		Shift Game
+		</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+	<style>
+		body{
+			color: rgb(0,0,0);
+			font-family: "Times New Roman", "fantasy", red serif;
+			font-style: italic;
+			font-weight: bold;
+			font-size: 1em;
+			text-align: center;
+			justify-content: center;
+			background-color: rgb(45%, 67%, 89%);
+
+		}
+		.square{
+			color: rgb(0,0,0);
+			background-color: rgb(40%, 50%, 50%);
+			padding: 2px;
+			margin: 0%;
+			border: 1px dotted black;
+			border-collapse: true;
+			border-radius: 50%;
+			height: 50px;
+			width: 50px;
+			font-weight: bold;
+			font-style: italic;
+		}
+		#container{
+			background-color: rgb(99%,99%,99%);
+			border: 1px solid blue;
+			border-radius: 8px;
+			margin: auto;
+			width: 50%;
+			padding: 5px;
+		}
+		.square:hover{
+			background-color: rgb(45%, 55%,55%);
+			
+		}
+		#instruct-div{
+			justify-content: flex-start;
+			text-align: start;
+			font-weight: normal;
+			margin: 20px;
+			padding: 20px;
+		}
+		h2, h1{
+			text-align: center;
+			text-decoration: underline;
+		}
+	</style>
+<body>
+<h1>Shift Game</h1>
+<h2 id="playerTurn"></h2>
+	<div id="container">
+	<div class="row">
+		<button class="square column-1">X</button>
+		<button class="square column-2">X</button>
+		<button class="square column-3">X</button>
+		<button class="square column-4">X</button>
+		<button class="square column-5">X</button>
+		<button class="square column-6">X</button>
+
+	</div>
+	<div id="row">
+		<button class="square column-1">X</button>
+		<button class="square column-2">X</button>
+		<button class="square column-3">X</button>
+		<button class="square column-4">X</button>
+		<button class="square column-5">X</button>
+		<button class="square column-6">X</button>
+
+	</div>
+	<div class="row">
+		<button class="square column-1">X</button>
+		<button class="square column-2">X</button>
+		<button class="square column-3">X</button>
+		<button class="square column-4">X</button>
+		<button class="square column-5">X</button>
+		<button class="square column-6">X</button>
+
+	</div>
+	<div class="row">
+		<button class="square column-1">X</button>
+		<button class="square column-2">X</button>
+		<button class="square column-3">X</button>
+		<button class="square column-4">X</button>
+		<button class="square column-5">X</button>
+		<button class="square column-6">X</button>
+
+	</div>
+	<div class="row">
+		<button class="square column-1">X</button>
+		<button class="square column-2">X</button>
+		<button class="square column-3">X</button>
+		<button class="square column-4">X</button>
+		<button class="square column-5">X</button>
+		<button class="square column-6">X</button>
+
+	</div>
+	<div class="row">
+		<button class="square column-1">X</button>
+		<button class="square column-2">X</button>
+		<button class="square column-3">X</button>
+		<button class="square column-4">X</button>
+		<button class="square column-5">X</button>
+		<button class="square column-6">X</button>
+
+	</div>
+	</div>
+	<div id="instruct-div">
+	<h2>Instructions on how to Play</h2>
+	<p>
+		<ul>
+			<li>Two players</li>
+			<li>Each player has a turn</li>
+			<li>Aim
+				<ul>
+					<li>Fill a column first</li>
+					<li>Player earns a point each time they fill a column</li>
+				</ul>
+			</li>
+			<li>If no player wins a round, no point is awarded</li>
+		</ul>
+	</p>
+	</div>
+	<script>
+
+	document.addEventListener("DOMContentLoaded", function(){
+	const buttons = document.querySelectorAll(".square");
+	const column1 = document.querySelectorAll(".column-1");
+	const column2 = document.querySelectorAll(".column-2");
+	const column3 = document.querySelectorAll(".column-3");
+	const column4 = document.querySelectorAll(".column-4");
+	const column5 = document.querySelectorAll(".column-5");
+	const column6 = document.querySelectorAll(".column-6");
+
+	let boardState = Array(36).fill("");//when mapping the check winner() function
+	let playerTurn = 1;
+
+	const playerColors = ["green", "orange"];
+
+	for (let button of buttons){
+	button.onclick = ()=>{
+		let playerColor = playerTurn === 1 ? "green" : "orange";
+		document.querySelector("#playerTurn").innerText = `Turn: Player ${playerTurn}`;
+		switch(button.classList[1]){
+			case "column-1":
+				let column1Reversed = [];
+				column1.forEach((element) =>{
+					column1Reversed.unshift(element);
+					});
+				for (let col1Button of column1Reversed){
+					if(!playerColors.includes(col1Button.style.backgroundColor)){
+						col1Button.style.backgroundColor = playerColor;
+						break;
+						}
+						}		
+				break;
+			case "column-2":
+				let column2Reversed = [];
+				column2.forEach((element) =>{
+					column2Reversed.unshift(element);
+					});
+				for (let col2Button of column2Reversed){
+					if(!playerColors.includes(col2Button.style.backgroundColor)){
+						col2Button.style.backgroundColor = playerColor;
+						break;
+						}
+						}	
+				break;
+			case "column-3":
+				let column3Reversed = [];
+				column3.forEach((element) =>{
+					column3Reversed.unshift(element);
+					});
+				for (let col3Button of column3Reversed){
+					if(!playerColors.includes(col3Button.style.backgroundColor)){
+						col3Button.style.backgroundColor = playerColor;
+						break;
+						}
+						}
+	
+					break;
+			case "column-4":
+			let column4Reversed = [];
+				column4.forEach((element) =>{
+					column4Reversed.unshift(element);
+					});
+				for (let col4Button of column4Reversed){
+					if(!playerColors.includes(col4Button.style.backgroundColor)){
+						col4Button.style.backgroundColor = playerColor;
+						break;
+						}
+						}
+				break;
+			case "column-5":
+				let column5Reversed = [];
+				column5.forEach((element) =>{
+					column5Reversed.unshift(element);
+					});
+				for (let col5Button of column5Reversed){
+					if(!playerColors.includes(col5Button.style.backgroundColor)){
+						col5Button.style.backgroundColor = playerColor;
+						break;
+						}
+						}
+
+				break;
+			case "column-6":
+				let column6Reversed = [];
+				column6.forEach((element) =>{
+					column6Reversed.unshift(element);
+				});
+				for (let col6Button of column6Reversed){
+					if (!playerColors.includes(col6Button.style.backgroundColor)){
+						col6Button.style.backgroundColor = playerColor;
+						break;
+					}
+				}
+				break;
+			default:
+				console.log("Apparently that didnt Work as expected");
+		}	
+		
+			playerTurn = playerTurn === 1 ? 2 : 1;
+		};
+	};
+	
+
+	});
+	</script>
+</body>
+
+</html>
