@@ -40,9 +40,10 @@
 			padding: 5px;
 		}
 		.square:hover{
-			background-color: rgb(45%, 55%,55%);
+			background-color: rgb(45%, 55%,55%);	
 			
 		}
+	
 		#instruct-div{
 			justify-content: flex-start;
 			text-align: start;
@@ -54,6 +55,10 @@
 			text-align: center;
 			text-decoration: underline;
 		}
+		li::marker{
+			color: rgb(99%, 0%, 10%);
+		}
+		
 	</style>
 <body>
 <h1>Shift Game</h1>
@@ -132,102 +137,92 @@
 
 	document.addEventListener("DOMContentLoaded", function(){
 	const buttons = document.querySelectorAll(".square");
-	const column1 = document.querySelectorAll(".column-1");
-	const column2 = document.querySelectorAll(".column-2");
-	const column3 = document.querySelectorAll(".column-3");
-	const column4 = document.querySelectorAll(".column-4");
-	const column5 = document.querySelectorAll(".column-5");
-	const column6 = document.querySelectorAll(".column-6");
+	const columns = [
+		document.querySelectorAll(".column-1"),
+		document.querySelectorAll(".column-2"),
+		document.querySelectorAll(".column-3"),
+		document.querySelectorAll(".column-4"),
+		document.querySelectorAll(".column-5"),
+		document.querySelectorAll(".column-6")];
 
-	let boardState = Array(36).fill("");//when mapping the check winner() function
 	let playerTurn = 1;
 
 	const playerColors = ["green", "orange"];
+	function checkWinner(column){
+		for (let btn of column){
+		if (!playerColors.includes(btn.style.backgroundColor)){
+				return false;
+			}			}
+		return true;
+		}
+
+	function declareWinner(playerTurn){
+		alert(`Player ${playerTurn} Win!!`);
+		resetGame();
+
+		}
+	function resetGame(){
+		for (let btn of buttons){
+			btn.style.backgroundColor = "";
+			
+		}
+		playerTurn = 1;
+		playerTurnText.innerText = `Turn : Player ${playerTurn}`;
+	}
+
+
 
 	for (let button of buttons){
 	button.onclick = ()=>{
-		let playerColor = playerTurn === 1 ? "green" : "orange";
-		document.querySelector("#playerTurn").innerText = `Turn: Player ${playerTurn}`;
-		switch(button.classList[1]){
-			case "column-1":
-				let column1Reversed = [];
-				column1.forEach((element) =>{
-					column1Reversed.unshift(element);
-					});
-				for (let col1Button of column1Reversed){
-					if(!playerColors.includes(col1Button.style.backgroundColor)){
-						col1Button.style.backgroundColor = playerColor;
-						break;
-						}
-						}		
-				break;
-			case "column-2":
-				let column2Reversed = [];
-				column2.forEach((element) =>{
-					column2Reversed.unshift(element);
-					});
-				for (let col2Button of column2Reversed){
-					if(!playerColors.includes(col2Button.style.backgroundColor)){
-						col2Button.style.backgroundColor = playerColor;
-						break;
-						}
-						}	
-				break;
-			case "column-3":
-				let column3Reversed = [];
-				column3.forEach((element) =>{
-					column3Reversed.unshift(element);
-					});
-				for (let col3Button of column3Reversed){
-					if(!playerColors.includes(col3Button.style.backgroundColor)){
-						col3Button.style.backgroundColor = playerColor;
-						break;
-						}
-						}
+		let playerColor = playerTurn === 1 ? playerColors[0] : playerColors[1];
+		playerTurnText = document.querySelector("#playerTurn");
+		playerTurnText.innerText = `Turn: Player ${playerTurn}`;
 	
-					break;
-			case "column-4":
-			let column4Reversed = [];
-				column4.forEach((element) =>{
-					column4Reversed.unshift(element);
-					});
-				for (let col4Button of column4Reversed){
-					if(!playerColors.includes(col4Button.style.backgroundColor)){
-						col4Button.style.backgroundColor = playerColor;
-						break;
-						}
-						}
-				break;
-			case "column-5":
-				let column5Reversed = [];
-				column5.forEach((element) =>{
-					column5Reversed.unshift(element);
-					});
-				for (let col5Button of column5Reversed){
-					if(!playerColors.includes(col5Button.style.backgroundColor)){
-						col5Button.style.backgroundColor = playerColor;
-						break;
-						}
-						}
+		let column;
+		switch(button.classList[1]){
 
+			case "column-1":
+				column = columns[0];	
 				break;
+
+			case "column-2":
+				column = columns[1];
+				break;
+
+			case "column-3":
+				column = columns[2];
+				break;
+
+			case "column-4":
+				column = columns[3];
+				break;
+
+			case "column-5":
+				column = columns[4];
+				break;
+
 			case "column-6":
-				let column6Reversed = [];
-				column6.forEach((element) =>{
-					column6Reversed.unshift(element);
-				});
-				for (let col6Button of column6Reversed){
-					if (!playerColors.includes(col6Button.style.backgroundColor)){
-						col6Button.style.backgroundColor = playerColor;
-						break;
-					}
-				}
+				column = columns[5];
 				break;
+
 			default:
-				console.log("Apparently that didnt Work as expected");
+				console.log("Received wrong column");
+				return;
 		}	
-		
+		let columnReversed = Array.from(column).reverse();
+		for (let colButton of columnReversed){
+			if (!playerColors.includes(colButton.style.backgroundColor)){
+				colButton.style.backgroundColor = playerColor;
+			if (checkWinner(column)){
+				declareWinner(playerTurn);
+				
+			}
 			playerTurn = playerTurn === 1 ? 2 : 1;
+			return
+			}
+			
+		}
+		
 		};
 	};
 	
